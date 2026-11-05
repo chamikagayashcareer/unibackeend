@@ -17,6 +17,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -41,23 +42,25 @@ public class User {
 
     private String password;
 
-    @OneToOne(mappedBy = "hod", optional = true)
-    private Department departments;
-
-    @OneToMany(mappedBy = "lecture")
-    private Set<Module> lectures;
+    @OneToMany(mappedBy = "instructor")
+    private Set<Module> modulesTaught = new HashSet<>();
 
     @ManyToMany(mappedBy = "students")
     private Set<Course> courses = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private Department department;
 
     @ManyToOne
     @JoinColumn(name = "batch_id")
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private Batch batch;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
+    @ManyToMany()
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id", unique = true)
@@ -68,4 +71,16 @@ public class User {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
+
+    public void removeRole(Role role) {
+        this.roles.remove(role);
+    }
+
+    public void cleanRole() {
+        this.roles.clear();
+    }
 }

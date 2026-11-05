@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.uni.unibakeend.common.ApiResponse;
 import com.uni.unibakeend.dto.department.CreateDepartmentDto;
+import com.uni.unibakeend.dto.department.DepartmentResponseDto;
 import com.uni.unibakeend.entities.Department;
 import com.uni.unibakeend.services.DepartmentService;
 
@@ -39,8 +40,8 @@ public class DepartmentController {
     }
 
     @GetMapping()
-    public ResponseEntity<ApiResponse<List<Department>>> getMethodName() {
-        List<Department> departments = departmentService.getDepartments();
+    public ResponseEntity<ApiResponse<List<DepartmentResponseDto>>> getMethodName() {
+        List<DepartmentResponseDto> departments = departmentService.getDepartments();
         return ResponseEntity
                 .ok(ApiResponse.success(null, departments));
     }

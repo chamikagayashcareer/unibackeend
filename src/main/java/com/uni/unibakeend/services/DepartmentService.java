@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.uni.unibakeend.dto.department.CreateDepartmentDto;
+import com.uni.unibakeend.dto.department.DepartmentResponseDto;
 import com.uni.unibakeend.entities.Department;
 import com.uni.unibakeend.errors.DuplicateResourceException;
 import com.uni.unibakeend.repositories.DepartmentRepository;
@@ -34,7 +35,7 @@ public class DepartmentService {
     }
 
     @Transactional(readOnly = true)
-    public List<Department> getDepartments() {
-        return departmentRepository.findAll().stream().toList();
+    public List<DepartmentResponseDto> getDepartments() {
+        return departmentRepository.findByIdRowDto();
     }
 }

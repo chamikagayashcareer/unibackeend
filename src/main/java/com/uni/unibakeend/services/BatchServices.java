@@ -71,12 +71,13 @@ public class BatchServices {
 
     @Transactional
     public void assignStudent(AssignStudentRequest request) {
-        User student = userRepository.findStudentById(request.getStudentId())
+        User student = userRepository.findById(request.getStudentId())
                 .orElseThrow(
                         () -> new NotFoundResourceException("Student not found for id: " + request.getStudentId()));
 
-        if (student == null)
+        if (student.getRoles().stream().noneMatch(role -> role.getName().equals("ROLE_STUDENT"))) {
             throw new NotFoundResourceException("Student not found for id: " + request.getStudentId());
+        }
 
     }
 

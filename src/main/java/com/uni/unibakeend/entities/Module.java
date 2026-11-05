@@ -28,6 +28,6 @@ public class Module {
     private int semester;
 
     @ManyToOne
-    @JoinColumn(name = "lecture_id")
-    private User lecture;
+    @JoinColumn(name = "instructor_id")
+    private User instructor;
 }

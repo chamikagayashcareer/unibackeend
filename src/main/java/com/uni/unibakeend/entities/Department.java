@@ -45,6 +45,9 @@ public class Department {
     @JoinColumn(name = "hod_id", nullable = true)
     private User hod;
 
+    @OneToMany(mappedBy = "department")
+    private Set<User> users;
+
     @CreationTimestamp
     private LocalDate createdAt;
 
